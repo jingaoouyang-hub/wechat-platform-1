@@ -1,0 +1,267 @@
+// 全局样式写这里面！！！
+// 全局样式写这里面！！！
+// 全局样式写这里面！！！
+
+// 滚动条 滚动条整体部分
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: transparent;
+}
+
+// 滚动条两端的按钮
+::-webkit-scrollbar-button {
+}
+
+// 外层轨道
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background: transparent;
+}
+
+// 内层轨道，滚动条中间部分（除去）
+::-webkit-scrollbar-track-piece {
+}
+
+// 滚动条里面可以拖动的那个
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: rgba(144, 147, 153, 0.3);
+}
+
+//边角
+::-webkit-scrollbar-corner {
+}
+
+// 定义右下角拖动块的样式
+::-webkit-resizer {
+}
+
+
+// 头部用户信息下拉
+.header-user-info-popover {
+  .ant-popover-inner-content {
+    padding: 4px 16px;
+  }
+
+  .header-user-info-menu-item {
+    line-height: 2.5;
+    border-bottom: solid 1px @border-color-base;
+
+    &:nth-last-of-type(1) {
+      border-bottom: none;
+    }
+
+    &:hover {
+      color: @primary-color;
+      cursor: pointer;
+    }
+  }
+}
+
+// 头部消息下拉
+.header-message-list {
+  // background-color: #ffffff;
+  border: solid 1px @border-color-base;
+  box-shadow: @box-shadow-base;
+  border-radius: 4px;
+  width: 368px;
+  .message-list-box{
+    // display: flex;
+    // height: 100%;
+  }
+  .message-list-title {
+    color: @heading-color;
+    height: 46px;
+    line-height: 46px;
+    font-size: 16px;
+    text-align: center;
+    border-bottom: solid 1px @border-color-base;
+  }
+  .message-top {
+    .message-top-item {
+      width: 148px;
+      height: 32px;
+      background: #f0f2f5;
+      border-radius: 4px;
+      text-align: center;
+      line-height: 32px;
+      color: rgba(0, 0, 0, 0.85);
+    }
+    .active {
+      font-weight: 500;
+      background: #f0f5ff;
+      color: #1b90fb;
+    }
+  }
+  .message-top {
+    margin-bottom: 24px;
+    .message-top-item {
+      cursor: pointer;
+      height: 32px;
+      background: #f0f2f5;
+      border-radius: 4px;
+      text-align: center;
+      line-height: 32px;
+      color: rgba(0, 0, 0, 0.85);
+    }
+    &:hover{
+      color: #1B90FB;
+    }
+    .active {
+      font-weight: 500;
+      background: #f0f5ff;
+      color: #1b90fb;
+    }
+  }
+
+  .message-list {
+    // padding: 12px 24px;
+    overflow-y: auto;
+    max-height: 300px;
+    .message-list-item {
+      padding: 12px 0;
+      border-bottom: solid 1px @border-color-base;
+      display: flex;
+      justify-content: flex-start;
+      align-items: stretch;
+      cursor: pointer;
+      &:first-child{
+        padding-top: 0;
+      }
+      &:hover{
+        background: #F9FAFB;
+      }
+
+      .message-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: @primary-color;
+        color: #ffffff;
+      }
+
+      .message-text {
+        flex: 1;
+        flex-shrink: 0;
+
+        .item-content {
+          font-weight: bold;
+          color: @heading-color;
+        }
+
+        .item-label {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 12px;
+          color: @text-color-secondary;
+
+          .a-btn {
+            display: none;
+          }
+        }
+      }
+
+      &:nth-last-of-type(1) {
+        border-bottom: none;
+      }
+
+      &:hover {
+        cursor: pointer;
+
+        .message-text {
+          .item-content {
+            color: @primary-color;
+          }
+
+          .item-label {
+            .a-btn {
+              display: inline-block;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .message-list-btn {
+    height: 46px;
+    line-height: 46px;
+    border-top: solid 1px @border-color-base;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    > div {
+      flex: 1;
+      flex-shrink: 0;
+      text-align: center;
+      cursor: pointer;
+      color: rgba(0,0,0,0.85);
+
+      & + div {
+        border-left: solid 1px @border-color-base;
+      }
+      &:hover{
+        color: @primary-color;
+      }
+    }
+  }
+}
+
+// 文字高亮样式
+.a-link {
+  &:hover {
+    cursor: pointer;
+    color: @primary-color;
+  }
+
+  &.primary {
+    &:hover {
+      color: @primary-color;
+    }
+  }
+
+  &.success {
+    &:hover {
+      color: @success-color;
+    }
+  }
+
+  &.warning {
+    &:hover {
+      color: @warning-color;
+    }
+  }
+
+  &.error {
+    &:hover {
+      color: @error-color;
+    }
+  }
+}
+
+// 弹窗内容标题
+.modal-item-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  > .title {
+    flex: 1;
+    font-size: 16px;
+    font-weight: bold;
+    color: @heading-color;
+  }
+
+  > .more {
+  }
+}
+

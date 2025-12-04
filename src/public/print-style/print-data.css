@@ -1,0 +1,36 @@
+.print-data{
+  padding: 7px 0;
+}
+
+.print-card{
+  width: 60%;
+  border: 1px solid rgba(0,0,0,0.4500);
+  margin: 7px auto;
+  -webkit-print-color-adjust: exact;
+  page-break-inside: avoid
+}
+.print-card .print-card-title{
+  margin: 1px;
+  padding: 5px;
+  text-align: center;
+  background: #F0F3F4;
+  font-size: 9px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(0,0,0,0.8500);
+}
+.print-card .print-card-body{
+  padding:9px 18px;
+  display: flex;
+  align-items: center;
+}
+.content{
+  flex: 1;
+  font-size: 7px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(0,0,0,0.6500);
+}
+.content .content-label{
+  color: rgba(0,0,0,0.8500);
+}

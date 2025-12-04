@@ -1,0 +1,471 @@
+// 全局通用样式写这里面！！！
+// 全局通用样式写这里面！！！
+// 全局通用样式写这里面！！！
+
+// 宽度 高度 边距
+.numFor(@count) when (@count >= 0) {
+  .numFor(@count - 1);
+  // 宽度 百分比
+  .w-@{count} {
+    width: unit(@count, %);
+  }
+
+  // 宽度 px
+  .w-px-@{count} {
+    width: unit(@count, @unit);
+  }
+
+  //高度 百分比
+  .h-@{count} {
+    height: unit(@count, %);
+  }
+
+  //高度 px
+  .h-px-@{count} {
+    height: unit(@count, @unit);
+  }
+
+  // 外边距
+  .m-@{count} {
+    margin: unit(@count, @unit);
+  }
+
+  // 左右外边距
+  .mx-@{count} {
+    margin: auto unit(@count, @unit) auto unit(@count, @unit);
+  }
+
+  // 上下外边距
+  .my-@{count} {
+    margin: unit(@count, @unit) auto unit(@count, @unit) auto;
+  }
+
+  // 上 外边距
+  .mt-@{count} {
+    margin-top: unit(@count, @unit);
+  }
+
+  // 右 外边距
+  .mr-@{count} {
+    margin-right: unit(@count, @unit);
+  }
+
+  // 下 外边距
+  .mb-@{count} {
+    margin-bottom: unit(@count, @unit);
+  }
+
+  // 左 外边距
+  .ml-@{count} {
+    margin-left: unit(@count, @unit);
+  }
+
+  // 外边距
+  .p-@{count} {
+    padding: unit(@count, @unit);
+  }
+
+  // 左右内边距
+  .px-@{count} {
+    padding: unit(0, @unit) unit(@count, @unit) unit(0, @unit) unit(@count, @unit);
+  }
+
+  // 上下内边距
+  .py-@{count} {
+    padding: unit(@count, @unit) unit(0, @unit) unit(@count, @unit) unit(0, @unit);
+  }
+
+  // 上 内边距
+  .pt-@{count} {
+    padding-top: unit(@count, @unit);
+  }
+
+  // 右 内边距
+  .pr-@{count} {
+    padding-right: unit(@count, @unit);
+  }
+
+  // 下 内边距
+  .pb-@{count} {
+    padding-bottom: unit(@count, @unit);
+  }
+
+  // 左 内边距
+  .pl-@{count} {
+    padding-left: unit(@count, @unit);
+  }
+}
+
+.numFor(100);
+
+// 字体大小 行高
+.fontSizeFor(@count) when (@count >= 10) {
+  .fontSizeFor(@count - 2);
+  // 文字大小 px
+  .font-@{count} {
+    font-size: unit(@count, @unit);
+  }
+  // 文字行高 px
+  .line-height-@{count} {
+    line-height: unit(@count, @unit);
+  }
+}
+
+.fontSizeFor(100);
+
+// 行高 字体粗细
+.lineHeightFor(@count) when (@count >= 0) {
+  .lineHeightFor(@count - 1);
+  // 文字行高
+  .line-height-@{count} {
+    line-height: unit(@count);
+  }
+  // 文字粗细
+  .font-weight-@{count} {
+    font-weight: @count * 100;
+  }
+}
+
+.lineHeightFor(9);
+
+// 圆角
+.radius(@count) when (@count > 0) {
+  .radius(@count - 1);
+  .radius-@{count} {
+    border-radius: unit(@count, @unit);
+  }
+}
+
+.radius(10);
+
+// 边框
+.border(@count) when (@count > 0) {
+  .border(@count - 1);
+  .border-@{count} {
+    border: solid @border-color-base unit(@count, @unit);
+  }
+
+  .border-t-@{count} {
+    border-top: solid @border-color-base unit(@count, @unit);
+  }
+
+  .border-r-@{count} {
+    border-right: solid @border-color-base unit(@count, @unit);
+  }
+
+  .border-b-@{count} {
+    border-bottom: solid @border-color-base unit(@count, @unit);
+  }
+
+  .border-l-@{count} {
+    border-left: solid @border-color-base unit(@count, @unit);
+  }
+}
+
+.border(10);
+
+// 边框类型
+.border-dashed {
+  border-style: dashed;
+}
+
+.border-dotted {
+  border-style: dotted;
+}
+
+.border-double {
+  border-style: double;
+}
+
+// 阴影
+.shadow(@count) when (@count > 0) {
+  .shadow(@count - 5);
+  .shadow-@{count} {
+    box-shadow: 0 0 unit(@count, @unit) 0 @box-shadow-base;
+  }
+
+  // 内阴影
+  .shadow-@{count}--inset {
+    box-shadow: 0 0 unit(@count, @unit) 0 @box-shadow-base inset;
+  }
+
+  // x轴
+  .shadow-x-@{count} {
+    box-shadow: unit(@count, @unit) 0 unit(@count, @unit) 0 @box-shadow-base;
+  }
+
+  // y轴
+  .shadow-y-@{count} {
+    box-shadow: 0 unit(@count, @unit) unit(@count, @unit) 0 @box-shadow-base;
+  }
+
+  // yx轴
+  .shadow-xy-@{count} {
+    box-shadow: unit(@count, @unit) unit(@count, @unit) unit(@count, @unit) 0 @box-shadow-base;
+  }
+}
+
+.shadow(20);
+
+// 文本颜色
+.text(@count,@name) when (@count > 0) {
+  .text(@count - 1, extract(@text-colors-name, @count - 1));
+  .text-@{name} {
+    color: extract(@text-colors, @count) !important;
+  }
+}
+.text-error {
+  &:hover {
+    color: @error-color-hover !important;
+  }
+  &:active {
+    color: @error-color-active !important;
+  }
+}
+
+.text(length(@text-colors), extract(@text-colors-name, length(@text-colors)));
+
+// 文字对齐
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+// 省略
+.lineClamp(@count) when (@count > 0) {
+  .lineClamp(@count - 1);
+  .line-clamp-@{count} {
+    display: -webkit-inline-box;
+    -webkit-line-clamp: @count;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+  }
+}
+
+.lineClamp(3);
+
+// 滚动
+.overflow-h {
+  overflow: hidden;
+}
+
+.overflow-x {
+  overflow-x: auto;
+}
+
+.overflow-x-h {
+  overflow-x: hidden;
+}
+
+.overflow-y {
+  overflow-y: auto;
+}
+
+.overflow-y-h {
+  overflow: hidden;
+}
+
+// 鼠标 手指
+.cursor-pointer {
+  cursor: pointer;
+}
+
+// 图片
+image {
+  will-change: transform;
+}
+
+// 背景
+.bg-fff {
+  background-color: #fff;
+}
+
+/* flex布局 */
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.flex-shrink {
+  flex-shrink: 0;
+}
+
+.j-start {
+  justify-content: flex-start;
+}
+
+.j-center {
+  justify-content: center;
+}
+
+.j-end {
+  justify-content: flex-end;
+}
+
+.j-sb {
+  justify-content: space-between;
+}
+
+.a-center {
+  align-items: center;
+}
+
+.a-start {
+  align-items: flex-start;
+}
+
+.a-end {
+  align-items: flex-end;
+}
+
+.a-baseline {
+  align-items: baseline;
+}
+
+.a-stretch {
+  align-items: stretch;
+}
+
+.a-self-start {
+  align-self: flex-start;
+}
+
+.a-self-auto {
+  align-self: auto;
+}
+
+.a-self-end {
+  align-self: flex-end;
+}
+
+.a-self-stretch {
+  align-self: stretch;
+}
+
+.a-self-baseline {
+  align-self: baseline;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+/* 即是:flex:1 1 auto;[第一个是放大值(默认为0，即如果存在剩余空间，也不放大),第二个是缩小值(默认为1，如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小),第三个固定值(跟width或height属性一样的值（比如350px），则项目将占据固定空间)] */
+.flex-none {
+  flex: none;
+}
+
+/* 即是:flex:0 0 auto; */
+.flex-center {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* X轴(主轴)方向-所有元素居中(包括横向的和垂直方向的) */
+.flex-start {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* X轴(主轴)方向-所有元素居中(子元素-横向靠左对齐) */
+.flex-end {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* X轴(主轴)方向-所有元素垂直方向居中(子元素-横向靠右对齐)*/
+.flex-between {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* X轴(主轴)方向-所有元素垂直方向居中(两端对齐,子元素之间的间隔都相等。只有一个子元素时是左对齐)*/
+.flex-around {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+/* X轴(主轴)方向-所有元素垂直方向居中(每个子元素两侧的间隔相等。所以，子元素之间的间隔比子元素与边框的间隔大一倍。只有一个子元素时是居中,)*/
+/* flex竖向flex-direction: column; */
+[class*='flex-col-'] {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-col-center {
+  justify-content: center;
+  align-items: center;
+}
+
+/* Y轴(主轴)方向-所有元素居中(包括横向的和垂直方向的都居中)*/
+.flex-col-start {
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Y轴(主轴)方向-所有元素垂直方向居中(子元素-横向靠左对齐)*/
+.flex-col-end {
+  justify-content: center;
+  align-items: flex-end;
+}
+
+/* Y轴(主轴)方向-所有元素垂直方向居中(子元素-横向靠左对齐)*/
+.flex-col-baseline {
+  justify-content: center;
+  align-items: baseline;
+}
+
+/* Y轴(主轴)方向-所有元素垂直方向居中(X轴-项目的第一行文字的基线对齐)*/
+.flex-col-stretch {
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* Y轴(主轴)方向-所有元素垂直方向居中(X轴-如果项目未设置高度或设为auto，将占满整个容器的高度)*/
+
+.flex-col-between {
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Y轴(主轴)方向-所有元素垂直方向两端对齐(子元素-横向靠左对齐)*/
+.flex-col-around {
+  justify-content: space-around;
+  align-items: flex-start;
+}
+

@@ -1,0 +1,11 @@
+export const SAVE_TOKEN = 'SAVE_TOKEN';
+export const USERINFO = 'USERINFO'; // 用户信息
+export const LOADING = 'LOADING'; // loading状态
+export const SAVE_SHRINK = 'SAVE_SHRINK'; // 收缩
+export const SAVE_RSA_KEY = 'SAVE_RSA_KEY'; // 加密的钥匙
+export const SAVE_POWER = 'SAVE_POWER'; // 资源权限
+export const SAVE_MENU = 'SAVE_MENU'; // 菜单
+export const SAVE_ROUTE = 'SAVE_ROUTE'; // 菜单
+export const SAVE_ACCOUNT = 'SAVE_ACCOUNT'; // 账号
+export const SAVE_LOGO_LOGIN_IMG = 'SAVE_LOGO_LOGIN_IMG'; // 图片
+export const LOCALE_LANG = 'LANG';
