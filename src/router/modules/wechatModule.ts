@@ -77,6 +77,15 @@ export default [
     component: () => import('@/views/fans/index.vue'),
   },
   {
+    path: '/window/index',
+    name: 'window-manage',
+    meta: {
+      title: '微信弹窗二维码管理',
+      keepAlive: true,
+    },
+    component: () => import('@/views/wechat-open-manage/index.vue'),
+  },
+  {
     path: '/user/index',
     name: 'user-manage',
     meta: {
