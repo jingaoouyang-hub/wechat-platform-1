@@ -3,7 +3,7 @@
     <template #title>微信弹窗二维码管理</template>
     <template #titleMore>
       <a-space :size="12">
-        <a-button type="primary" @click="windowModalRef.showModal({})">上传</a-button>
+        <a-button type="primary" @click="windowModalRef.showModal()">上传</a-button>
       </a-space>
     </template>
     <template #table>

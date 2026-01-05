@@ -82,6 +82,7 @@ const clearFormState = () => {
     picUrl: undefined,
     enable: 0,
     text: undefined,
+    id: undefined
   });
 };
 
