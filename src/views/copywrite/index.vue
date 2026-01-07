@@ -3,12 +3,13 @@
     <template #title>文案管理</template>
     <template #titleMore>
       <a-space :size="12">
-        <a-button @click="onBatchDeleteTitle"  v-if="isAdmin">
+        <a-button @click="onBatchDeleteTitle" v-if="isAdmin">
           <template #icon>
             <DeleteOutlined />
           </template>
           批量删除
         </a-button>
+        <a-button type="primary" @click="handleRemoveUnique">一键去重</a-button>
         <a-button type="primary" @click="copywriteModalRef.showModal()">
           <template #icon>
             <PlusOutlined />
@@ -56,7 +57,7 @@
 import { BasicTable, useTable } from '@/components/BasicTable';
 import MainContent from '@/components/main-content/index.vue';
 import CopywriteModal from './components/copywrite-modal.vue';
-import { postCopywritePage, postBatchDeleteCopywrite } from '@/api/wechat-manage/title';
+import { postCopywritePage, postBatchDeleteCopywrite, postCopywriterUnique } from '@/api/wechat-manage/title';
 import { postWechatAccount } from '@/api/wechat-manage/index';
 import { message, Modal } from 'ant-design-vue';
 import { ExclamationCircleFilled } from '@ant-design/icons-vue';
@@ -163,6 +164,14 @@ const onDeleteCopywrite = id => {
         }
       });
     },
+  });
+};
+
+const handleRemoveUnique = () => {
+  postCopywriterUnique().then(() => {
+    rowSelection.selectedRowKeys = [];
+    message.success('去重成功');
+    fetch();
   });
 };
 </script>

@@ -57,7 +57,6 @@ const handleOk = () => {
 const clearFormState = () => {
   Object.assign(formState, {
     copywriter: undefined,
-    type: undefined,
     id: undefined,
   });
 };

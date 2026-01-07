@@ -3,7 +3,7 @@
     <template #title>素材管理</template>
     <template #titleMore>
       <a-space :size="12">
-        <a-button @click="onBatchDeleteMaterial"  v-if="isAdmin">
+        <a-button @click="onBatchDeleteMaterial" v-if="isAdmin">
           <template #icon>
             <DeleteOutlined />
           </template>
@@ -15,13 +15,13 @@
           </template>
           删除分组
         </a-button>
-        <a-button v-if="isAdmin" type="primary" @click="moveGroupModalRef.showModal()" >
+        <a-button v-if="isAdmin" type="primary" @click="moveGroupModalRef.showModal()">
           <template #icon>
             <MergeCellsOutlined />
           </template>
           移动分组
         </a-button>
-        <a-button type="primary" @click="moveGroup"  v-if="isAdmin">
+        <a-button type="primary" @click="moveGroup" v-if="isAdmin">
           <template #icon>
             <MergeCellsOutlined />
           </template>
@@ -61,14 +61,20 @@
     </template>
     <template #search>
       <QueryFilter
+        :mode="mode"
+        :show-mode="true"
         :form-model="queryData"
         :options="options"
+        @changeMode="changeTableMode"
         @reset="reloadTable"
+        @refresh="fetch"
         @submit="onQueryDataByParams"
       ></QueryFilter>
     </template>
     <template #table>
       <BasicTable
+        ref="tableRef"
+        :mode="mode"
         :query-params="queryData"
         :row-selection="rowSelection"
         rowKey="id"
@@ -93,17 +99,35 @@
             </a-space>
           </template>
         </template>
+        <template #custom="{ data }">
+          <div class="all-check-box">
+            <a-checkbox :checked="allCheck" @change="handleCheckAll($event, data)">全选</a-checkbox>
+          </div>
+          <a-row :gutter="[24, 24]">
+            <a-col :span="3" v-for="item in data">
+              <div class="pic-box">
+                <a-checkbox
+                  :checked="rowSelection.selectedRowKeys.includes(item.id)"
+                  class="pic-check"
+                  :value="item.id"
+                  @change="changePicCheck"
+                ></a-checkbox>
+                <a-image :src="item.picUrl" width="100%" referrerPolicy="no-referrer" />
+              </div>
+            </a-col>
+          </a-row>
+        </template>
       </BasicTable>
-      <MaterialModal ref="materialModalRef" @ok="reloadTable"></MaterialModal>
-      <MaterialUploadModal ref="materialUploadModalRef" @ok="reloadTable"></MaterialUploadModal>
-      <GatherModal ref="gatherModalRef" @ok="reloadTable"></GatherModal>
-      <GenerateRandomModal ref="generateRandomModalRef" @ok="reloadTable"></GenerateRandomModal>
-      <GenerateSelectedModal ref="generateSelectedModalRef" @ok="reloadTable"></GenerateSelectedModal>
-      <MaterialMoveModal ref="materialMoveModalRef" @ok="handleMove"></MaterialMoveModal>
-      <DeteleGroupModal ref="deteleGroupModalRef" @ok="reloadTable"></DeteleGroupModal>
-      <MoveGroupModal ref="moveGroupModalRef" @ok="reloadTable"></MoveGroupModal>
     </template>
   </MainContent>
+  <MaterialModal ref="materialModalRef" @ok="reloadTable"></MaterialModal>
+  <MaterialUploadModal ref="materialUploadModalRef" @ok="reloadTable"></MaterialUploadModal>
+  <GatherModal ref="gatherModalRef" @ok="reloadTable"></GatherModal>
+  <GenerateRandomModal ref="generateRandomModalRef" @ok="reloadTable"></GenerateRandomModal>
+  <GenerateSelectedModal ref="generateSelectedModalRef" @ok="reloadTable"></GenerateSelectedModal>
+  <MaterialMoveModal ref="materialMoveModalRef" @ok="handleMove"></MaterialMoveModal>
+  <DeteleGroupModal ref="deteleGroupModalRef" @ok="reloadTable"></DeteleGroupModal>
+  <MoveGroupModal ref="moveGroupModalRef" @ok="reloadTable"></MoveGroupModal>
 </template>
 
 <script setup>
@@ -145,6 +169,7 @@ const generateSelectedModalRef = ref(null);
 const materialMoveModalRef = ref(null);
 const deteleGroupModalRef = ref(null);
 const moveGroupModalRef = ref(null);
+const mode = ref('table');
 const columns = [
   { title: '序号', dataIndex: 'index', key: 'index', width: 60, customRender: record => `${record.index + 1}` },
   { title: '素材', dataIndex: 'picUrl', key: 'picUrl', width: 200, ellipsis: true },
@@ -186,7 +211,7 @@ const options = computed(() => {
       label: '素材类型',
       componentProps: {
         showSearch: true,
-        options: materialTypeList,
+        options: materialTypeList.value,
       },
     },
   ];
@@ -215,7 +240,8 @@ const rowSelection = reactive({
     }
   },
 });
-
+const tableRef = ref(null);
+const allCheck = ref(false);
 const onBatchDeleteMaterial = () => {
   if (rowSelection.selectedRowKeys.length == 0) {
     message.warning('请先选择要删除的素材！');
@@ -314,6 +340,30 @@ const handleMove = data => {
     reloadTable();
   });
 };
+
+const changePicCheck = data => {
+  if (data.target.checked) {
+    rowSelection.selectedRowKeys.push(data.target.value);
+  } else {
+    rowSelection.selectedRowKeys = rowSelection.selectedRowKeys.filter(item => item !== data.target.value);
+  }
+};
+
+const changeTableMode = type => {
+  mode.value = type;
+  tableRef.value.pageOptions.pageSize = type === 'table' ? 10 : 20;
+  reloadTable();
+};
+
+const handleCheckAll = (data, arr) => {
+  allCheck.value = data.target.checked;
+  if (allCheck.value) {
+    rowSelection.selectedRowKeys = rowSelection.selectedRowKeys.concat(arr.map(t => t.id));
+    rowSelection.selectedRowKeys = [...new Set(rowSelection.selectedRowKeys)];
+  } else {
+    rowSelection.selectedRowKeys = rowSelection.selectedRowKeys.filter(o => !arr.some(t => t.id === o));
+  }
+};
 </script>
 
 <style scoped lang="less">
@@ -321,5 +371,17 @@ const handleMove = data => {
   ::v-deep .slot-content {
     background-color: #ffffff;
   }
+}
+.pic-box {
+  position: relative;
+  .pic-check {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    z-index: 99;
+  }
+}
+.all-check-box {
+  margin-bottom: 24px;
 }
 </style>

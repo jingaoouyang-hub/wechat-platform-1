@@ -1,28 +1,43 @@
 <template>
   <div ref="wrapRef" style="height: 100%">
-    <a-table
-      ref="tableElRef"
-      :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)"
-      v-bind="{ ...getProps, ...$attrs }"
-      :columns="renderColumns"
-      :data-source="dataSourceRef"
-      :loading="showLoading ? loading : undefined"
-      :pagination="pageCon"
-      :scroll="getScrollRef"
-      @change="tableChange"
-    >
-      <!--  自定义slots start-->
-      <template v-for="(value, key) in $slots" #[key]="slotProps">
-        <slot :name="key" v-bind="slotProps"></slot>
-      </template>
-      <template #emptyText>
-        <a-empty :image="Empty.PRESENTED_IMAGE_SIMPLE" style="height: 20vh">
-          <template #description>
-            {{ isEmpty ? '暂无数据' : '' }}
-          </template>
-        </a-empty>
-      </template>
-    </a-table>
+    <template v-if="mode === 'table'">
+      <a-table
+        ref="tableElRef"
+        :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)"
+        v-bind="{ ...getProps, ...$attrs }"
+        :columns="renderColumns"
+        :data-source="dataSourceRef"
+        :loading="showLoading ? loading : undefined"
+        :pagination="pageCon"
+        :scroll="getScrollRef"
+        @change="tableChange"
+      >
+        <!--  自定义slots start-->
+        <template v-for="(value, key) in $slots" #[key]="slotProps">
+          <slot :name="key" v-bind="slotProps"></slot>
+        </template>
+        <template #emptyText>
+          <a-empty :image="Empty.PRESENTED_IMAGE_SIMPLE" style="height: 20vh">
+            <template #description>
+              {{ isEmpty ? '暂无数据' : '' }}
+            </template>
+          </a-empty>
+        </template>
+      </a-table>
+    </template>
+    <template v-else>
+      <slot name="custom" :data="dataSourceRef"></slot>
+      <div class="custom-page">
+        <a-pagination
+          v-model:current="pageOptions.current"
+          show-quick-jumper
+          :pageSize="pageOptions.pageSize"
+          :total="pageOptions.total"
+          :pageSizeOptions="pageOptions.pageSizeOptions"
+          @change="handleChangePage"
+        />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -103,6 +118,10 @@ const props = defineProps({
   pageSizeOptions: {
     default: () => [],
     type: Array,
+  },
+  mode: {
+    default: 'table',
+    type: String,
   },
 });
 
@@ -282,6 +301,11 @@ function setProps(props) {
   innerPropsRef.value = { ...unref(innerPropsRef), ...props };
 }
 
+const handleChangePage = (current,pageSize) => {
+  pageOptions.value.onChange(current,pageSize);
+  fetch();
+}
+
 const tableAction = {
   reloadTable,
   fetch,
@@ -302,5 +326,9 @@ defineExpose(tableAction);
   td {
     color: rgba(0, 0, 0, 0.65);
   }
+}
+.custom-page{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

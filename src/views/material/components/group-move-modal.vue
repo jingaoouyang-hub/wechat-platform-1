@@ -77,7 +77,7 @@ const handleOk = () => {
       onOk() {
         postMoveGroup(formState).then(() => {
           visible.value = false;
-          message.success('删除成功');
+          message.success('移入成功');
           emit('ok');
         });
       },

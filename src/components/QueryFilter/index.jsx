@@ -41,10 +41,18 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    showMode: {
+      type: Boolean,
+      default: false,
+    },
+    mode: {
+      type: String,
+      default: 'table',
+    },
   },
   emits: ['changeMode', 'refresh', 'reset', 'submit'],
   setup(props, { slots, emit }) {
-    const { formModel, options } = toRefs(props);
+    const { formModel, options, mode, showMode } = toRefs(props);
 
     let defaultSlots = computed(() => {
       return slots
@@ -108,6 +116,8 @@ export default defineComponent({
               btnSlot={btnSlot}
               formRef={formRef.value}
               formModel={formModel.value}
+              showMode={showMode.value}
+              mode={mode.value}
               onReset={resetForm}
               onChangeMode={changeMode}
               onRefresh={refresh}

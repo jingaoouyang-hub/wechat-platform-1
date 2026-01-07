@@ -2,7 +2,7 @@ import { defineComponent, ref, toRefs, watch, computed } from 'vue';
 // 组件
 import { FormItem, Dropdown, Button } from 'ant-design-vue';
 import { FilterOutlined } from '@ant-design/icons-vue';
-
+import Operation from '@/components/BasicTable/src/Operation.vue';
 // import SvgIcon from '@/components/SvgIcon/index.vue';
 
 // 组件集合
@@ -86,7 +86,7 @@ export default defineComponent({
     },
     showMode: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     formItemProps: {
       type: Object,
@@ -97,7 +97,7 @@ export default defineComponent({
   },
   emits: ['submit', 'reset', 'refresh', 'changeMode'],
   setup(props, { emit }) {
-    const { defaultSlots, formItemProps, spanSize, formModel, options, slots, btnSlot, showCount } = toRefs(props);
+    const { defaultSlots, formItemProps, spanSize, formModel, options, slots, btnSlot, showCount, showMode, mode } = toRefs(props);
 
     let data = JSON.parse(JSON.stringify(formModel.value));
 
@@ -264,6 +264,7 @@ export default defineComponent({
       );
     });
 
+
     watch(
       () => [spanSize, options],
       () => {
@@ -343,6 +344,14 @@ export default defineComponent({
         });
       });
 
+      const refresh = () => {
+        emit('refresh');
+      }
+
+      const changeMode = (mode) => {
+        emit('changeMode', mode);
+      }
+
       return (
         <div class="d-flex ">
           <div class="flex-1 d-flex flex-wrap pr4">
@@ -362,7 +371,7 @@ export default defineComponent({
             } */}
           </div>
           <div>
-            {btnSlot.value}
+            {(btnSlot.value || <Operation show-mode={showMode.value} mode={mode.value} onChangeMode={changeMode} onRefresh={refresh}></Operation>)}
             <Button style="display:none" htmlType="submit" type="primary"></Button>
           </div>
         </div>

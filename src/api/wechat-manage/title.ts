@@ -77,3 +77,9 @@ export const postTitleTypeList = (data = {}): Promise<any> => serverBase.post('/
  * @param data
  */
 export const postTitleUnique = (data = {}): Promise<any> => serverBase.post('/title/unique', data);
+
+/**
+ * 文案去重
+ * @param data
+ */
+export const postCopywriterUnique = (data = {}): Promise<any> => serverBase.post('/title/copywriter/unique', data);
