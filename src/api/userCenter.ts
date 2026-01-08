@@ -84,3 +84,12 @@ export const uploadAvatar = (data = {}) => serverBase.post('/user/update/avatar/
  * @returns {Promise<void>}
  */
 export const menuTree = (data = {}) => serverBase.post('/auth/query/menu/tree', data, { loading: true });
+
+
+/**
+ * 根据微信公众号查询用户列表
+ * @param data
+ * @returns {Promise<void>}
+ */
+export const postUserByWechat = (data = {}) => serverBase.post('/user/query/list', data, { loading: true });
+

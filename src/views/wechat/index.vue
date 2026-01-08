@@ -58,16 +58,19 @@ import MainContent from '@/components/main-content/index.vue';
 import AccountModal from './components/account-modal.vue';
 import PublishModal from './components/publish-modal.vue';
 import { postAccountList, postAccountDelete } from '@/api/wechat-manage/index';
+import { postUserByWechat } from '@/api/userCenter';
 import { message, Modal } from 'ant-design-vue';
 import { ExclamationCircleFilled } from '@ant-design/icons-vue';
 import { createVNode } from 'vue';
 import { useCheckWechatLogin } from '@/hooks/useCheckWechatLogin';
 import { uniq } from 'lodash';
+import { useStoreUser } from '@/store';
 
 const [registerTable, { reloadTable, fetch }] = useTable();
 const router = useRouter();
 const accountModalRef = ref(null);
 const publishModalRef = ref(null);
+const users = ref([]);
 const columns = [
   { title: '序号', dataIndex: 'index', key: 'index', width: 60, customRender: record => `${record.index + 1}` },
   { title: '公众号名称', dataIndex: 'officialName', key: 'officialName', width: 200, ellipsis: true },
@@ -85,15 +88,32 @@ provide('accountId', accountId);
 const { startCheck } = useCheckWechatLogin(item => {
   jumpRecord(item);
 });
-
+const store = useStoreUser();
+const isAdmin = computed(() => store.userInfo.userName === 'admin');
 const options = computed(() => {
-  return [
+  let o = [
     {
       field: 'officialName',
       component: 'Input',
       label: '公众号名称',
-    },
+    }
   ];
+  if(isAdmin.value){
+    o.push( {
+      field: 'userIds',
+      component: 'Select',
+      label: '创建人',
+      componentProps: {
+        mode: 'multiple',
+        options: users,
+        maxTagCount: 1,
+      },
+      itemProps: {
+        style: { width: '300px' },
+      },
+    },)
+  }
+  return o;
 });
 
 const rowSelection = reactive({
@@ -112,6 +132,12 @@ const rowSelection = reactive({
       rowSelection.selectedRowKeys = rowSelection.selectedRowKeys.filter(item => !data.find(t => t.id === item));
     }
   },
+});
+
+onMounted(() => {
+  postUserByWechat().then(result => {
+    users.value = result.data.map(t => ({ value: t.id, label: t.realName }));
+  });
 });
 
 const onPublishBatch = () => {
