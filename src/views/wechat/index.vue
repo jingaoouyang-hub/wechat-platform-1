@@ -3,6 +3,12 @@
     <template #title>公众号管理</template>
     <template #titleMore>
       <a-space :size="12">
+         <a-button type="primary" @click="onPublishHot">
+          <template #icon>
+           <send-outlined />
+          </template>
+          发布爆款
+        </a-button>
         <a-button type="primary" @click="onPublishBatch">
           <template #icon>
             <DeleteOutlined />
@@ -48,6 +54,7 @@
       </BasicTable>
       <AccountModal ref="accountModalRef" @ok="reloadTable"></AccountModal>
       <PublishModal ref="publishModalRef" @ok="publishCompleted"></PublishModal>
+      <HotModal ref="hotModalRef" @ok="reloadTable"></HotModal>
     </template>
   </MainContent>
 </template>
@@ -57,6 +64,7 @@ import { BasicTable, useTable } from '@/components/BasicTable';
 import MainContent from '@/components/main-content/index.vue';
 import AccountModal from './components/account-modal.vue';
 import PublishModal from './components/publish-modal.vue';
+import HotModal from './components/hot-modal.vue';
 import { postAccountList, postAccountDelete } from '@/api/wechat-manage/index';
 import { postUserByWechat } from '@/api/userCenter';
 import { message, Modal } from 'ant-design-vue';
@@ -70,6 +78,7 @@ const [registerTable, { reloadTable, fetch }] = useTable();
 const router = useRouter();
 const accountModalRef = ref(null);
 const publishModalRef = ref(null);
+const hotModalRef = ref(null);
 const users = ref([]);
 const columns = [
   { title: '序号', dataIndex: 'index', key: 'index', width: 60, customRender: record => `${record.index + 1}` },
@@ -204,6 +213,10 @@ const jumpRecord = record => {
     },
   });
 };
+
+const onPublishHot = () => {
+  hotModalRef.value.showModal();
+}
 </script>
 
 <style scoped lang="less">

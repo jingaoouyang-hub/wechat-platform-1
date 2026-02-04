@@ -105,4 +105,5 @@ export const postWechatAccount = (data = {}): Promise<any> => serverBase.post('/
 export const postPublishBatch = (data = {}): Promise<any> => serverBase.post('/account/accountId/publish/batch', data);
 
 
-
+// 发布爆款
+export const postPublishHot = (data = {}): Promise<any> => serverAccount.post('/account/sendDraftsByLink', data);
