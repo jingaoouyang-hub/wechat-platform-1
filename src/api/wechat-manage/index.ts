@@ -106,4 +106,4 @@ export const postPublishBatch = (data = {}): Promise<any> => serverBase.post('/a
 
 
 // 发布爆款
-export const postPublishHot = (data = {}): Promise<any> => serverAccount.post('/account/sendDraftsByLink', data);
+export const postPublishHot = (data = {}): Promise<any> => serverBase.post('/account/sendDraftsByLink', data);

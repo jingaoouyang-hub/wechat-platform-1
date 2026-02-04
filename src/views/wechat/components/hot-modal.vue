@@ -6,6 +6,8 @@
           v-model:value="formState.accountIds"
           mode="multiple"
           placeholder="请选择模板类型"
+          showSearch
+          :filter-option="filterOption"
           :options="accountList"
         />
       </a-form-item>
@@ -67,6 +69,10 @@ onMounted(() => {
     });
   });
 });
+
+const filterOption = (input, option) => {
+  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+};
 const handleOk = () => {
   formRef.value.validate().then(() => {
     postPublishHot(formState).then(() => {
