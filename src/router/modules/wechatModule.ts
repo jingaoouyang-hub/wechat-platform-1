@@ -94,4 +94,33 @@ export default [
     },
     component: () => import('@/views/user-manage/index.vue'),
   },
+  {
+    path: '/applet-manage',
+    name: 'applet-manage',
+    meta: {
+      title: '小程序管理',
+      keepAlive: true,
+    },
+    component: () => import('@/components/Layout/CommonLayout.vue'),
+    children: [
+      {
+        path: '/applet-manage/button',
+        name: 'applet-manage-button',
+        meta: {
+          title: '小程序按钮配置',
+          keepAlive: true,
+        },
+        component: () => import('@/views/applet-manage/applet-button.vue'),
+      },
+       {
+        path: '/applet-manage/image',
+        name: 'applet-manage-image',
+        meta: {
+          title: '小程序图片',
+          keepAlive: true,
+        },
+        component: () => import('@/views/applet-manage/applet-image.vue'),
+      },
+    ]
+  },
 ];

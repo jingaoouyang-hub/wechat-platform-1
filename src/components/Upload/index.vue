@@ -26,7 +26,7 @@
 <script setup name="FormUpload">
 import { ref } from 'vue';
 import { message } from 'ant-design-vue';
-import { postFileUpload } from '@/api/common';
+import { postFansPicUpload } from '@/api/wechat-manage/fans';
 
 const props = defineProps({
   listType: {
@@ -126,7 +126,7 @@ function customRequest(options) {
   formData.append('fileType', props.fileType);
   let progress = { percent: 0 };
   curUploadNum.value += 1;
-  postFileUpload(formData, {
+  postFansPicUpload(formData, {
     // `onUploadProgress` 允许为上传处理进度事件
     onUploadProgress: function (progressEvent) {
       progress.percent = (progressEvent.loaded / progressEvent.total) * 100;
@@ -141,7 +141,7 @@ function customRequest(options) {
       });
       options.onSuccess();
       fileList.value[currentIndex].fileId = data.id;
-      fileList.value[currentIndex].url = data.url;
+      fileList.value[currentIndex].url = data.picUrl;
       fileList.value[currentIndex].name = fileList.value[currentIndex].fileName = data.fileName;
     })
     .catch(() => {
