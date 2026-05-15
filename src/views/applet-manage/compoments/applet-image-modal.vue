@@ -17,21 +17,7 @@
         <a-input-number v-model:value="formState.sortOrder" :min="0" placeholder="请输入排序序号" style="width: 100%" />
       </a-form-item>
       <a-form-item label="图片地址" name="imageUrl">
-        <a-upload
-          class="avatar-uploader"
-          name="avatar"
-          accept="image/*"
-          :show-upload-list="false"
-          :custom-request="customRequest"
-          :multiple="false"
-        >
-          <div class="upload-text" v-if="!formState?.imageUrl">
-            <LoadingOutlined v-if="loading"></LoadingOutlined>
-            <PlusOutlined v-else></PlusOutlined>
-            <div class="ant-upload-text">上传</div>
-          </div>
-          <img class="upload-text" v-else :src="formState?.imageUrl" />
-        </a-upload>
+        <AvatarUpload v-model:model-value="formState.imageUrl" @success="() => formRef?.value?.validateFields(['imageUrl'])"/>
       </a-form-item>
       <a-form-item label="启用状态" name="enabled">
         <a-switch v-model:checked="formState.enabled" :checked-children="'启用'" :un-checked-children="'禁用'" />
@@ -42,7 +28,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
-import { postFansPicUpload } from '@/api/wechat-manage/fans';
+import AvatarUpload from '@/components/Upload/AvatarUpload.vue';
 
 const props = defineProps({
   modelValue: {
@@ -56,7 +42,6 @@ const emit = defineEmits(['update:modelValue', 'ok', 'cancel']);
 const visible = ref(false);
 const formRef = ref();
 const isEdit = ref(false);
-const loading = ref(false);
 
 const formState = reactive({
   imageDescription: '',
@@ -69,23 +54,6 @@ const formState = reactive({
 
 const rules = {
   imageName: [{ required: true, message: '请输入图片名称', trigger: 'blur' }],
-};
-
-const customRequest = files => {
-  const file = files.file;
-  if (!file.type.match('image.*')) {
-    console.log('请选择图片文件');
-    return;
-  }
-  loading.value = true;
-  const formData = new FormData();
-  formData.append('file', file);
-  postFansPicUpload(formData).then(result => {
-    formState.imageUrl = result.data.picUrl;
-    loading.value = false;
-  }).catch(() => {
-    loading.value = false;
-  });
 };
 
 const showModal = (record = {}, edit = false) => {
@@ -128,33 +96,4 @@ defineExpose({
 </script>
 
 <style scoped lang="less">
-.avatar-uploader {
-  display: inline-block;
-  margin-right: 16px;
-  margin-bottom: 16px;
-  :deep {
-    .ant-upload {
-      width: 128px;
-      height: 128px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px dashed #ddd;
-      border-radius: 4px;
-      .upload-text {
-        width: 128px;
-        height: 128px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        cursor: pointer;
-      }
-
-      &:hover {
-        border: 1px dashed @primary-color;
-      }
-    }
-  }
-}
 </style>

@@ -10,20 +10,7 @@
       <a-row :gutter="32">
         <a-col :span="6">
           <a-form-item label="背景图">
-            <a-upload
-              class="avatar-uploader"
-              name="avatar"
-              accept="image/*"
-              :show-upload-list="false"
-              :custom-request="customRequest"
-              :multiple="false"
-            >
-              <div class="upload-text" v-if="!bgUrl">
-                <PlusOutlined></PlusOutlined>
-                <div class="ant-upload-text">上传</div>
-              </div>
-              <img class="upload-text" v-else :src="bgUrl" />
-            </a-upload>
+            <AvatarUpload v-model:model-value="bgUrl" @success="val => postFansBgSave({ bgUrl: val.picUrl })" />
           </a-form-item>
         </a-col>
         <a-col :span="10">
@@ -73,13 +60,13 @@ import { createVNode } from 'vue';
 import { ExclamationCircleFilled } from '@ant-design/icons-vue';
 import MainContent from '@/components/main-content/index.vue';
 import FansPicModal from './fans-pic-modal.vue';
+import AvatarUpload from '@/components/Upload/AvatarUpload.vue';
 import {
   postFansPicList,
   postFansPicDelete,
   postFansPicEnable,
   postFansTextGet,
   postFansBgGet,
-  postFansPicUpload,
   postFansBgSave,
   postFansTextSave,
 } from '@/api/wechat-manage/fans';
@@ -111,20 +98,6 @@ onMounted(() => {
     fansText.value = result.data.fansText;
   });
 });
-
-const customRequest = files => {
-  const file = files.file;
-  if (!file.type.match('image.*')) {
-    console.log('请选择图片文件');
-    return;
-  }
-  const formData = new FormData();
-  formData.append('file', file);
-  postFansPicUpload(formData).then(result => {
-    bgUrl.value = result.data.picUrl;
-    postFansBgSave({ bgUrl: bgUrl.value });
-  });
-};
 
 const onDeletePic = id => {
   Modal.confirm({

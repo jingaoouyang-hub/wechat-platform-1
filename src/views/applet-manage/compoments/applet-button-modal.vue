@@ -14,21 +14,7 @@
         <a-input v-model:value="formSate.buttonCopywriting" placeholder="请输入按钮文案" />
       </a-form-item>
       <a-form-item label="按钮图片" name="buttonImage">
-        <a-upload
-          class="avatar-uploader"
-          name="avatar"
-          accept="image/*"
-          :show-upload-list="false"
-          :custom-request="customRequest"
-          :multiple="false"
-        >
-          <div class="upload-text" v-if="!formSate?.buttonImage">
-            <LoadingOutlined v-if="loading"></LoadingOutlined>
-            <PlusOutlined v-else></PlusOutlined>
-            <div class="ant-upload-text">上传</div>
-          </div>
-          <img class="upload-text" v-else :src="formSate?.buttonImage" />
-        </a-upload>
+        <AvatarUpload v-model:model-value="formSate.buttonImage" @success="() => formRef?.value?.validateFields(['buttonImage'])"/>
       </a-form-item>
       <a-form-item label="启用状态" name="enabled">
         <a-switch v-model:checked="formSate.enabled" :checked-children="'启用'" :un-checked-children="'禁用'" />
@@ -39,7 +25,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
-import { postFansPicUpload } from '@/api/wechat-manage/fans';
+import AvatarUpload from '@/components/Upload/AvatarUpload.vue';
 
 const props = defineProps({
   modelValue: {
@@ -67,18 +53,6 @@ const rules = {
   buttonCopywriting: [{ required: true, message: '请输入按钮文案', trigger: 'blur' }],
 };
 
-const customRequest = files => {
-  const file = files.file;
-  if (!file.type.match('image.*')) {
-    console.log('请选择图片文件');
-    return;
-  }
-  const formData = new FormData();
-  formData.append('file', file);
-  postFansPicUpload(formData).then(result => {
-    formSate.buttonImage = result.data.picUrl;
-  });
-};
 const showModal = (record = {}, edit = false) => {
   isEdit.value = edit;
   if (edit && record.id) {
@@ -118,33 +92,4 @@ defineExpose({
 </script>
 
 <style scoped lang="less">
-.avatar-uploader {
-  display: inline-block;
-  margin-right: 16px;
-  margin-bottom: 16px;
-  :deep {
-    .ant-upload {
-      width: 128px;
-      height: 128px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px dashed #ddd;
-      border-radius: 4px;
-      .upload-text {
-        width: 128px;
-        height: 128px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        cursor: pointer;
-      }
-
-      &:hover {
-        border: 1px dashed @primary-color;
-      }
-    }
-  }
-}
 </style>
