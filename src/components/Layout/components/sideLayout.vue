@@ -28,7 +28,7 @@ const storeUser = useStoreUser();
 
 const menuList = computed(() =>
   storeUser.userInfo.userName !== 'admin'
-    ? menuRoute.filter(t => !['user-manage', 'fans-manage', 'window-manage'].includes(t.name))
+    ? menuRoute.filter(t => !['user-manage', 'fans-manage', 'window-manage', 'applet-manage'].includes(t.name))
     : menuRoute,
 );
 
