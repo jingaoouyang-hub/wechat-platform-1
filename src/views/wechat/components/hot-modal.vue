@@ -17,6 +17,12 @@
           <a-radio :value="false">否</a-radio>
         </a-radio-group>
       </a-form-item>
+      <a-form-item label="是否禁止放大" name="isForbidZoom" required>
+        <a-radio-group v-model:value="formState.isForbidZoom" name="radioGroup">
+          <a-radio :value="true">是</a-radio>
+          <a-radio :value="false">否</a-radio>
+        </a-radio-group>
+      </a-form-item>
       <a-form-item label="文章链接" name="links" required>
         <a-textarea v-model:value="linkText" placeholder="每个链接后面用回车分隔" @change="changeLinkText"></a-textarea>
       </a-form-item>
@@ -38,6 +44,7 @@ const formState = reactive({
   accountCard: false,
   accountIds: undefined,
   links: undefined,
+  isForbidZoom: false,
 });
 const rules = ref({
   accountIds: [
@@ -89,6 +96,7 @@ const clearFormState = () => {
     accountCard: false,
     accountIds: undefined,
     links: undefined,
+    isForbidZoom: false,
   });
 };
 
