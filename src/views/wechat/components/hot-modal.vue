@@ -41,10 +41,10 @@ const accountList = ref([]);
 const linkText = ref('');
 const route = useRoute();
 const formState = reactive({
-  accountCard: false,
+  accountCard: true,
   accountIds: undefined,
   links: undefined,
-  isForbidZoom: false,
+  isForbidZoom: true,
 });
 const rules = ref({
   accountIds: [
@@ -93,10 +93,10 @@ const handleOk = () => {
 const clearFormState = () => {
   linkText.value = undefined;
   Object.assign(formState, {
-    accountCard: false,
+    accountCard: true,
     accountIds: undefined,
     links: undefined,
-    isForbidZoom: false,
+    isForbidZoom: true,
   });
 };
 
